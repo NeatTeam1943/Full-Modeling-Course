@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>הכשרת צוות השרטוט (דמו)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap">
+<style>
+:root{--paper:#eef2f4;--surface:#fbfcfd;--ink:#14202b;--mute:#566574;--line:#9fb0bd;--blue:#1f4e8c;--blue-ink:#fff;--ok:#1f7a4d;--warn:#b7791f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#10181f;--surface:#18232c;--ink:#e8eef2;--mute:#97a8b5;--line:#3b4d5b;--blue:#6aa3ec;--blue-ink:#0b1722;--ok:#52c58b;--warn:#e0b04d}}
+:root[data-theme="dark"]{--paper:#10181f;--surface:#18232c;--ink:#e8eef2;--mute:#97a8b5;--line:#3b4d5b;--blue:#6aa3ec;--blue-ink:#0b1722;--ok:#52c58b;--warn:#e0b04d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Rubik,Arial,sans-serif;line-height:1.6;
+background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px;background-position:-1px -1px;
+background-blend-mode:normal}
+body::before{content:"";position:fixed;inset:0;background:var(--paper);opacity:.9;z-index:-1}
+main{max-width:760px;margin:0 auto;padding:16px}
+.banner{font-size:.85rem;color:var(--mute);border:1px dashed var(--line);padding:6px 10px;background:var(--surface);margin-bottom:12px}
+.sheet{background:var(--surface);border:2px solid var(--ink);padding:0}
+.titleblock{display:grid;grid-template-columns:2fr 1fr;border-bottom:2px solid var(--ink)}
+.titleblock>div{padding:10px 14px}
+.titleblock>div+div{border-inline-start:2px solid var(--ink)}
+.tb-label{font-size:.78rem;color:var(--mute)}
+.tb-val{font-size:1.15rem;font-weight:700}
+.bar{height:8px;background:var(--paper);border:1px solid var(--ink);margin-top:6px}
+.bar i{display:block;height:100%;background:var(--blue)}
+.body{padding:16px 14px}
+h1,h2{margin:0 0 8px;line-height:1.25}
+h1{font-size:1.5rem}h2{font-size:1.2rem}
+p{margin:0 0 12px;max-width:60ch}
+button{font:inherit;cursor:pointer;border:2px solid var(--ink);background:var(--surface);color:var(--ink);padding:8px 14px;min-height:44px}
+button.primary{background:var(--blue);color:var(--blue-ink);border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stage{display:flex;gap:12px;align-items:center;width:100%;text-align:start;margin-bottom:8px;border-color:var(--line)}
+.stage[aria-current="true"]{border-color:var(--ink)}
+.badge{min-width:2.2rem;text-align:center;border:2px solid currentColor;padding:0 6px;font-weight:700}
+.st-done{color:var(--ok)}.st-open{color:var(--blue)}.st-lock{color:var(--mute)}
+.ex{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);margin-bottom:8px;background:var(--paper)}
+.ex input{width:22px;height:22px;margin-top:2px;accent-color:var(--blue)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:center;font-size:.92rem}
+th:first-child,td:first-child{text-align:start;font-weight:500}
+.c-done{color:var(--ok);font-weight:700}.c-prog{color:var(--warn)}.c-none{color:var(--mute)}
+nav{display:flex;gap:8px;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+.small{font-size:.85rem;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<div class="banner">גרסת דמה: ההתחברות מדומה, והנתונים נשמרים רק בדפדפן שלך. בגרסה האמיתית: Google דרך Firebase ונתונים משותפים. שמות השלבים והתרגולים הם דוגמאות.</div>
+<div class="sheet" id="app"></div>
+</main>
+<script>
+var STAGES=[
+{t:"היכרות עם הממשק",d:"מכירים את סביבת העבודה, סרגלי הכלים ועץ התכנון.",ex:["לפתוח קובץ חדש ולשמור אותו בשם נכון","להתאים את סרגל הכלים","לתרגל ניווט: הזזה, זום וסיבוב"]},
+{t:"סקיצות",d:"שרטוט צורות דו-ממדיות עם אילוצים ומידות.",ex:["לשרטט מלבן עם מידות במילימטרים","להוסיף אילוצי מקביליות ואנכיות","לסקיצה מלאה ללא רכיבים חופשיים"]},
+{t:"חלקים",d:"הפיכת סקיצה לגוף תלת-ממדי.",ex:["להוציא סקיצה לגוף (Extrude)","להוסיף חור ו-Fillet","לשמור את החלק עם חומר מוגדר"]},
+{t:"הרכבות",d:"חיבור כמה חלקים למכלול.",ex:["להכניס שני חלקים להרכבה","להגדיר קשרי הרכבה (Mates)","לבדוק שאין התנגשויות"]},
+{t:"שרטוטים",d:"הכנת שרטוט ייצור מחלק או מהרכבה.",ex:["ליצור גיליון שרטוט עם מסגרת","להוסיף מבטים ומידות","לייצא ל-PDF"]}
+];
+var MEMBERS=[["נועה כהן",[2,3,3,1,0]],["איתי לוי",[3,3,3,3,2]],["מיכל אברהם",[1,0,0,0,0]],["דור ביטון",[3,2,0,0,0]]];
+var S={user:null,admin:false,view:"home",stage:0,prog:load()};
+function load(){try{var v=localStorage.getItem("demo-progress");if(v)return JSON.parse(v)}catch(e){}
+return STAGES.map(function(s){return{done:s.ex.map(function(){return false}),fin:false}})}
+function save(){try{localStorage.setItem("demo-progress",JSON.stringify(S.prog))}catch(e){}}
+function finished(){return S.prog.filter(function(p){return p.fin}).length}
+function unlocked(i){return i===0||S.prog[i-1].fin}
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function head(){var f=finished(),n=STAGES.length;
+return '<div class="titleblock"><div><div class="tb-label">מסמך</div><div class="tb-val">הכשרת צוות השרטוט</div></div><div><div class="tb-label">התקדמות</div><div class="tb-val">'+f+' / '+n+'</div><div class="bar"><i style="width:'+(f/n*100)+'%"></i></div></div></div>'}
+function render(){var a=document.getElementById("app");
+if(!S.user){a.innerHTML='<div class="body"><h1>הכשרת צוות השרטוט</h1><p>האתר פתוח לחברי הצוות בלבד. התחברו עם חשבון Google כדי להתחיל.</p><div class="row"><button class="primary" id="in-m">התחברות כחבר צוות (דמו)</button><button id="in-a">התחברות כמנהל (דמו)</button></div></div>';
+document.getElementById("in-m").onclick=function(){S.user="חבר צוות";S.admin=false;S.view="home";render()};
+document.getElementById("in-a").onclick=function(){S.user="מנהל";S.admin=true;S.view="home";render()};return}
+var h=head()+'<div class="body"><nav><div class="row">';
+h+='<button id="n-home">השלבים</button>';
+if(S.admin)h+='<button id="n-adm">מבט מנהל</button>';
+h+='</div><button id="out">יציאה</button></nav>';
+if(S.view==="home")h+=home();else if(S.view==="stage")h+=stage();else h+=admin();
+a.innerHTML=h+'</div>';
+bind()}
+function home(){var h='<h2>השלבים</h2><p>כל שלב נפתח אחרי שסיימתם את הקודם.</p>';
+STAGES.forEach(function(s,i){var p=S.prog[i],open=unlocked(i),cls=p.fin?"st-done":open?"st-open":"st-lock",lab=p.fin?"הושלם":open?"פתוח":"נעול";
+h+='<button class="stage" data-i="'+i+'" '+(open?'':'disabled')+(i===firstOpen()?' aria-current="true"':'')+'><span class="badge '+cls+'">'+(i+1)+'</span><span><b>'+esc(s.t)+'</b><br><span class="small">'+lab+'</span></span></button>'});
+return h}
+function firstOpen(){for(var i=0;i<STAGES.length;i++)if(!S.prog[i].fin)return i;return -1}
+function stage(){var s=STAGES[S.stage],p=S.prog[S.stage],all=p.done.every(Boolean);
+var h='<button id="back">חזרה לשלבים</button><h1 style="margin-top:12px">שלב '+(S.stage+1)+': '+esc(s.t)+'</h1><p>'+esc(s.d)+'</p><h2>תרגולים</h2>';
+s.ex.forEach(function(e,j){h+='<label class="ex"><input type="checkbox" data-j="'+j+'" '+(p.done[j]?'checked':'')+(p.fin?' disabled':'')+'><span>'+esc(e)+'</span></label>'});
+h+=p.fin?'<p class="st-done"><b>השלב הושלם.</b></p>':'<div class="row"><button class="primary" id="fin" '+(all?'':'disabled')+'>סיום שלב</button>'+(all?'':'<span class="small">סמנו את כל התרגולים כדי לסיים</span>')+'</div>';
+return h}
+function admin(){var h='<h2>איפה כל אחד עומד</h2><p class="small">נתוני הדוגמה למעלה מומצאים. השורה האחרונה היא ההתקדמות שלך בדמו.</p><div class="scroll"><table><tr><th>חבר</th>';
+STAGES.forEach(function(s,i){h+='<th>'+(i+1)+'</th>'});h+='</tr>';
+function cell(done,total){return done===total?'<td class="c-done">✓</td>':done>0?'<td class="c-prog">'+done+'/'+total+'</td>':'<td class="c-none">–</td>'}
+MEMBERS.forEach(function(m){h+='<tr><td>'+esc(m[0])+'</td>';m[1].forEach(function(d,i){h+=cell(d,STAGES[i].ex.length)});h+='</tr>'});
+h+='<tr><td>אתה (דמו)</td>';S.prog.forEach(function(p,i){h+=cell(p.fin?p.done.length:p.done.filter(Boolean).length,STAGES[i].ex.length)});
+return h+'</tr></table></div><p class="small" style="margin-top:10px">✓ שלב הושלם, מספר/סה״כ תרגולים שסומנו, מקף: לא התחיל.</p>'}
+function bind(){var q=function(id){return document.getElementById(id)};
+q("n-home").onclick=function(){S.view="home";render()};
+if(q("n-adm"))q("n-adm").onclick=function(){S.view="admin";render()};
+q("out").onclick=function(){S.user=null;render()};
+if(q("back"))q("back").onclick=function(){S.view="home";render()};
+document.querySelectorAll(".stage").forEach(function(b){b.onclick=function(){S.stage=+b.dataset.i;S.view="stage";render()}});
+document.querySelectorAll(".ex input").forEach(function(c){c.onchange=function(){S.prog[S.stage].done[+c.dataset.j]=c.checked;save();render()}});
+if(q("fin"))q("fin").onclick=function(){S.prog[S.stage].fin=true;save();S.view="home";render()}}
+render();
+</script>
+</body>
+</html>
